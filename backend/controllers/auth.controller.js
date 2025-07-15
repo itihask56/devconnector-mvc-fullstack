@@ -1,12 +1,12 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User.model');
-const { client: redisClient } = require('../config/redis');
+const { redisClient } = require('../config/redis');
 const validateUserData = require('../utils/validate')
+ 
 
 exports.registerUser = async (req, res) => {
-  // Logic here...
-
+  
   try {
    
     //validate user details
@@ -39,11 +39,13 @@ exports.registerUser = async (req, res) => {
     )
 
     // res.cookie("token", token, { maxAge: 60 * 60 * 1000 });
-    res.cookie("token", token, {
-        maxAge: 60 * 60 * 1000,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production'
-});
+     res.cookie("token", token, {
+     httpOnly: true,
+     secure: false,         // 🔥 keep false in local (set true in production/HTTPS)
+     sameSite: "lax",       // or "strict" if frontend served from same domain
+      });
+
+    console.log("User registered successfully")
     return res.status(200).json({ message: "User Registered Successfully", token });
     
   } catch (error) {
@@ -77,6 +79,13 @@ exports.loginUser = async (req, res) => {
       { expiresIn: "1h" }
     )
 
+   res.cookie("token", token, {
+  httpOnly: true,
+  secure: false,         // 🔥 keep false in local (set true in production/HTTPS)
+  sameSite: "lax",       // or "strict" if frontend served from same domain
+});
+
+
     console.log("User loggedin successfully")
     return res.status(200).json({ message: "Logged in successfully", token });
 
@@ -89,7 +98,23 @@ exports.loginUser = async (req, res) => {
 };
 
 exports.logoutUser = async (req, res) => {
-  // Add token to Redis blacklist
+  try {
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+
+    if (!token) return res.status(400).json({ message: "No token provided" });
+
+    await redisClient.set(token, "blacklisted", { EX: 60 * 60 }); // ⏳ 1 hour
+
+    res.clearCookie("token");
+
+    console.log("User loggedout successfully");
+    return res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.log("Error in logout:", error.message);
+    return res.status(500).json({ message: "Logout failed" });
+  }
 };
+
+
 
 
