@@ -33,13 +33,18 @@ exports.registerUser = async (req, res) => {
     const user = await User.create({name,email,password:hashedPassword});
 
     //create token
-    const token = jwt.sign({id:user._id,email:user.email,isAdmin:user.isAdmin},
+    const token = jwt.sign({_id:user._id,email:user.email,isAdmin:user.isAdmin},
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     )
 
-    res.cookie("token", token, { maxAge: 60 * 60 * 1000 });
-    return res.status(201).json({ message: "User Registered Successfully", token });
+    // res.cookie("token", token, { maxAge: 60 * 60 * 1000 });
+    res.cookie("token", token, {
+        maxAge: 60 * 60 * 1000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production'
+});
+    return res.status(200).json({ message: "User Registered Successfully", token });
     
   } catch (error) {
     console.log("Error occured:" + error.message);
@@ -50,6 +55,37 @@ exports.registerUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   // Logic here...
+  try {
+    const {email,password}=req.body;
+
+    //check wheather user exist
+    const user = await User.findOne({email});
+    if(!user){
+      return res.status(400).json({message:"User is not registered"});
+
+    }
+
+    //compare the password
+   const isPasswordCorrect= await bcrypt.compare(password,user.password);
+   if(!isPasswordCorrect){
+    return res.status(400).json({message:"Invalid Credentials"})
+   }
+
+   //create token
+    const token = jwt.sign({_id:user._id,email:user.email,isAdmin:user.isAdmin},
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    )
+
+    console.log("User loggedin successfully")
+    return res.status(200).json({ message: "Logged in successfully", token });
+
+    
+
+  } catch (error) {
+    console.log("Erorr in logging "+error.message);
+    return res.status(500).json({message:"Error in logging"})
+  }
 };
 
 exports.logoutUser = async (req, res) => {
