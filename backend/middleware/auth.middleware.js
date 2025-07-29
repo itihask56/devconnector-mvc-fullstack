@@ -5,7 +5,7 @@ const verifyToken = async (req, res, next) => {
   try {
     const token =
       req.cookies.token || req.headers.authorization?.split(" ")[1];
-      console.log(req.cookies.token)
+      // console.log(req.cookies.token)
 
     if (!token) {
       return res.status(401).json({ message: "Unauthorized: No token found" });
@@ -13,7 +13,7 @@ const verifyToken = async (req, res, next) => {
 
     // Check if token is blacklisted
     const isBlacklisted = await redisClient.get(token);
-    console.log(isBlacklisted);
+    // console.log(isBlacklisted);
     if (isBlacklisted) {
       return res.status(401).json({ message: "Token is blacklisted. Please login again." });
     }

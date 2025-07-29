@@ -33,7 +33,7 @@ exports.registerUser = async (req, res) => {
     const user = await User.create({name,email,password:hashedPassword});
 
     //create token
-    const token = jwt.sign({_id:user._id,email:user.email,isAdmin:user.isAdmin},
+    const token = jwt.sign({id:user._id,email:user.email,isAdmin:user.isAdmin},
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     )
@@ -74,7 +74,7 @@ exports.loginUser = async (req, res) => {
    }
 
    //create token
-    const token = jwt.sign({_id:user._id,email:user.email,isAdmin:user.isAdmin},
+    const token = jwt.sign({id:user._id,email:user.email,isAdmin:user.isAdmin},
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     )
