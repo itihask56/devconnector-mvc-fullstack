@@ -13,7 +13,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/auth", authRoutes); // 👈 mount router on /api/auth
 
 app.get('/',(req,res)=>{
-    res.send(`🚀 DevConnector API is running ✅`);
+    res.send(`🚀 DevConnector API is running smoothly`);
 })
 
 module.exports=app;
