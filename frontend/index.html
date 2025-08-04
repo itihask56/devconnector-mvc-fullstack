@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevConnector - Developer Social Network</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-code"></i>
+                <span>DevConnector</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link" onclick="showSection('home')">Home</a>
+                <a href="#" class="nav-link" onclick="showSection('developers')">Developers</a>
+                <a href="#" class="nav-link" onclick="showSection('posts')">Posts</a>
+                <a href="#" class="nav-link auth-link" onclick="showSection('login')">Login</a>
+                <a href="#" class="nav-link auth-link" onclick="showSection('register')">Register</a>
+                <a href="#" class="nav-link user-link hidden" onclick="showSection('dashboard')">Dashboard</a>
+                <a href="#" class="nav-link user-link hidden" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Connect with Developers</h1>
+                <p>Create a developer profile, share posts and get help from other developers</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="showSection('register')">Sign Up</button>
+                    <button class="btn btn-secondary" onclick="showSection('login')">Login</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-laptop-code"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Section -->
+    <section id="login" class="section">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h2><i class="fas fa-sign-in-alt"></i> Sign In</h2>
+                <p>Sign into your account</p>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <input type="email" id="loginEmail" placeholder="Email Address" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Login</button>
+                </form>
+                <p class="auth-switch">
+                    Don't have an account? <a href="#" onclick="showSection('register')">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Register Section -->
+    <section id="register" class="section">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h2><i class="fas fa-user-plus"></i> Sign Up</h2>
+                <p>Create your account</p>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <input type="text" id="registerName" placeholder="Name" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="registerEmail" placeholder="Email Address" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="registerPassword" placeholder="Password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Register</button>
+                </form>
+                <p class="auth-switch">
+                    Already have an account? <a href="#" onclick="showSection('login')">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+                <p>Welcome to your dashboard</p>
+            </div>
+            
+            <div class="dashboard-actions">
+                <button class="btn btn-primary" onclick="showSection('edit-profile')">
+                    <i class="fas fa-user-edit"></i> Edit Profile
+                </button>
+                <button class="btn btn-secondary" onclick="showSection('add-experience')">
+                    <i class="fas fa-briefcase"></i> Add Experience
+                </button>
+                <button class="btn btn-secondary" onclick="showSection('add-education')">
+                    <i class="fas fa-graduation-cap"></i> Add Education
+                </button>
+            </div>
+
+            <div class="profile-preview" id="profilePreview">
+                <!-- Profile data will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Edit Profile Section -->
+    <section id="edit-profile" class="section">
+        <div class="container">
+            <div class="form-container">
+                <h2><i class="fas fa-user-edit"></i> Create/Edit Profile</h2>
+                <p>Add some info to make your profile stand out</p>
+                
+                <form id="profileForm">
+                    <div class="form-group">
+                        <textarea id="profileBio" placeholder="A short bio of yourself" rows="4"></textarea>
+                        <small>Tell us a little about yourself</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="profileSkills" placeholder="Skills">
+                        <small>Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="profileWebsite" placeholder="Website">
+                        <small>Could be your own or a company website</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="profileLocation" placeholder="Location">
+                        <small>City & state suggested (eg. Boston, MA)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="profileGithub" placeholder="Github Username">
+                        <small>If you want your latest repos and a Github link</small>
+                    </div>
+                    
+                    <div class="social-inputs">
+                        <h3>Social Network Links</h3>
+                        <div class="form-group">
+                            <input type="text" id="profileLinkedin" placeholder="LinkedIn URL">
+                            <i class="fab fa-linkedin"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="profileTwitter" placeholder="Twitter URL">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="profilePortfolio" placeholder="Portfolio URL">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" onclick="showSection('dashboard')">Go Back</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Developers Section -->
+    <section id="developers" class="section">
+        <div class="container">
+            <h1><i class="fas fa-users"></i> Developers</h1>
+            <p>Browse and connect with developers</p>
+            <div class="developers-grid" id="developersGrid">
+                <!-- Developers will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Posts Section -->
+    <section id="posts" class="section">
+        <div class="container">
+            <h1><i class="fas fa-comments"></i> Posts</h1>
+            <p>Welcome to the community</p>
+            
+            <div class="post-form-container user-only hidden">
+                <form id="postForm" class="post-form">
+                    <div class="form-group">
+                        <textarea id="postText" placeholder="Create a post" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            
+            <div class="posts-container" id="postsContainer">
+                <!-- Posts will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
