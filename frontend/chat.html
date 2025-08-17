@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dracula">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0b14">
+    <title>CoupleGPT • Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root[data-theme="dracula"], [data-theme="dracula"] {
+            --p: 336 77% 55%;
+            --pc: 336 100% 96%;
+        }
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            background: radial-gradient(1200px 600px at 80% -10%, rgba(236, 72, 153, 0.12), transparent 60%),
+                        radial-gradient(900px 500px at 10% 20%, rgba(168, 85, 247, 0.12), transparent 60%),
+                        radial-gradient(600px 400px at 50% 120%, rgba(236, 72, 153, 0.10), transparent 60%),
+                        linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.45));
+        }
+        .chat-scroll {
+            height: calc(100svh - 220px);
+        }
+        @media (min-width: 640px) {
+            .chat-scroll { height: calc(100svh - 260px); }
+        }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+    </style>
+</head>
+<body class="min-h-screen bg-base-200 text-base-content pb-[env(safe-area-inset-bottom)]">
+    <div class="bg-grid"></div>
+
+    <div class="min-h-screen w-full flex items-center justify-center p-3 sm:p-4">
+        <div class="card w-full max-w-2xl md:max-w-3xl shadow-2xl bg-base-100/80 backdrop-blur">
+            <div class="card-body p-0">
+                <div class="p-4 sm:p-5 bg-primary text-primary-content rounded-t-2xl sticky top-0 z-10">
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="avatar">
+                                <div class="w-12 rounded-full ring ring-primary/40 ring-offset-2 ring-offset-primary">
+                                    <img alt="avatar" src="https://api.dicebear.com/8.x/bottts/svg?seed=CoupleGPT" />
+                                </div>
+                            </div>
+                            <div>
+                                <h1 class="text-xl sm:text-2xl font-black tracking-wide">CoupleGPT</h1>
+                                <p class="text-xs sm:text-sm opacity-80">Itihas ❤️ Poonam's Story</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <a href="index.html" class="btn btn-ghost btn-sm text-primary-content/90 hover:text-primary-content"><i class="fa-solid fa-house"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="messages" class="p-3 sm:p-4 chat-scroll overflow-y-auto space-y-4">
+                </div>
+
+                <div class="p-3 sm:p-4 border-t border-base-300 bg-base-100/80 backdrop-blur rounded-b-2xl">
+                    <form id="chat-form" class="flex items-end gap-2">
+                        <textarea id="chat-input" class="textarea textarea-bordered w-full resize-none leading-relaxed" rows="1" placeholder="Type your message..." maxlength="2000"></textarea>
+                        <button id="send-btn" type="submit" class="btn btn-primary px-4"><i class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                    <div class="mt-2 flex justify-between text-xs text-base-content/60">
+                        <span>Press Enter to send • Shift+Enter for new line</span>
+                        <span id="status-text" class="hidden">Assistant is typing…</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/chat.js"></script>
+</body>
+</html>
